@@ -45,6 +45,28 @@ export class App extends Component {
     this.setState({ filter: e.target.value });
   };
 
+
+  componentDidMount() {
+    // console.log("Component Did Mount")
+
+    const contacts = localStorage.getItem("contacts");
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(prevState)
+    // console.log(this.state)
+
+    if (this.state.contacts !== prevState.contacts) {
+
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    }
+  }
+
   render() {
     const normalizedFilter = this.state.filter.toLowerCase();
     const filtredContacts = this.state.contacts.filter(contact =>
